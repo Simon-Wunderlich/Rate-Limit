@@ -28,6 +28,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "HeartRateBlock"
+rootProject.name = "RateLimit"
 include(":app")
  

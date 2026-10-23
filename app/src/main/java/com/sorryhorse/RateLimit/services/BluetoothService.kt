@@ -1,4 +1,4 @@
-package com.example.heartrateblock.services
+package com.sorryhorse.RateLimit.services
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
@@ -21,7 +21,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresPermission
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.heartrateblock.getActivity
+import com.sorryhorse.RateLimit.getActivity
 import java.util.UUID
 
 class BluetoothService (private val caller : ActivityResultCaller,

@@ -46,7 +46,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="64dp"
+            android:layout_marginBottom="48dp"
             android:orientation="vertical"
             android:gravity="center_horizontal">
             <TextView
@@ -67,7 +67,7 @@
         </LinearLayout>
 
 
-        <com.example.heartrateblock.DeviceCard
+        <com.sorryhorse.RateLimit.Pages.main.components.DeviceCard
             android:layout_width="match_parent"
             android:layout_height="80dp"
             app:name="BT001"
@@ -101,7 +101,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.example.heartrateblock.AppCard
+        <com.sorryhorse.RateLimit.Pages.main.components.AppCard
             android:layout_width="match_parent"
             android:layout_height="80dp"
             app:name="LinkedIn"

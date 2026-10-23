@@ -1,4 +1,4 @@
-package com.example.heartrateblock.Pages.main.components
+package com.sorryhorse.RateLimit.Pages.main.components
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.withStyledAttributes
-import com.example.heartrateblock.R
+import com.sorryhorse.RateLimit.R
 
 class AppCard @JvmOverloads constructor(
     context: Context,

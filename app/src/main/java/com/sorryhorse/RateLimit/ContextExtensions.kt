@@ -1,4 +1,4 @@
-package com.example.heartrateblock
+package com.sorryhorse.RateLimit
 
 import android.app.Activity
 import android.content.Context

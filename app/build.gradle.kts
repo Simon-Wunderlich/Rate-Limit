@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.heartrateblock"
+    namespace = "com.sorryhorse.RateLimit"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.example.heartrateblock"
+        applicationId = "com.sorryhorse.RateLimit"
         minSdk = 24
         targetSdk = 37
         versionCode = 1
