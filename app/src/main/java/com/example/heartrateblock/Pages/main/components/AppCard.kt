@@ -1,4 +1,4 @@
-package com.example.heartrateblock
+package com.example.heartrateblock.Pages.main.components
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.withStyledAttributes
+import com.example.heartrateblock.R
 
 class AppCard @JvmOverloads constructor(
     context: Context,
@@ -28,10 +29,5 @@ class AppCard @JvmOverloads constructor(
                 usageTextView.text = getString(R.styleable.AppCard_usageTime)
             }
         }
-    }
-
-    fun setData(name : String, usage : String) {
-        nameTextView.text = name
-        usageTextView.text = usage
     }
 }

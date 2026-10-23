@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    tools:context=".MainActivity">
+    tools:context=".Pages.main.MainActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -46,7 +46,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="128px"
+            android:layout_marginBottom="64dp"
             android:orientation="vertical"
             android:gravity="center_horizontal">
             <TextView
@@ -67,17 +67,13 @@
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_marginBottom="64px"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Connected device - H17068"
-            android:textColor="@color/blue"
-            android:textSize="16sp"
-            app:drawableEndCompat="@drawable/baseline_keyboard_arrow_right_24"
-            app:drawableTint="@color/blue"
-            />
+        <com.example.heartrateblock.DeviceCard
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:name="BT001"
+            app:connected="false"
+            app:connectionStrength="100"
+            android:layout_marginBottom="16dp"/>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_marginBottom="8dp"
@@ -107,7 +103,7 @@
 
         <com.example.heartrateblock.AppCard
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             app:name="LinkedIn"
             app:usageTime="8h 23m"/>
 <!--        <LinearLayout-->

@@ -4,4 +4,6 @@
     <string name="edit_threshold">Edit threshold</string>
     <string name="blocked_apps">Blocked apps</string>
     <string name="edit">Edit</string>
+    <string name="device_icon">Device icon</string>
+    <string name="app_icon">app icon</string>
 </resources>

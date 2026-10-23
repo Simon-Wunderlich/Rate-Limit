@@ -4,4 +4,9 @@
         <attr name="name" format="string"/>
         <attr name="usageTime" format="string"/>
     </declare-styleable>
+    <declare-styleable name="DeviceCard">
+        <attr name="connected" format="boolean"/>
+        <attr name="deviceName" format="string"/>
+        <attr name="connectionStrength" format="string"/>
+    </declare-styleable>
 </resources>

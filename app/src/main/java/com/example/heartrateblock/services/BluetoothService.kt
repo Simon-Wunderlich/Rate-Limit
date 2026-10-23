@@ -1,4 +1,4 @@
-package com.example.heartrateblock
+package com.example.heartrateblock.services
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
@@ -20,12 +20,13 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresPermission
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
+import com.example.heartrateblock.getActivity
 import java.util.UUID
 
 class BluetoothService (private val caller : ActivityResultCaller,
-    private val context: Context) {
+                        private val context: Context
+) {
 
     private val permissionLauncher: ActivityResultLauncher<String> =
         caller.registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -63,7 +64,7 @@ class BluetoothService (private val caller : ActivityResultCaller,
         val REQUEST_ENABLE_BT = 2
         val activity = context.getActivity()
         if (activity != null)
-            startActivityForResult( activity, enableBtIntent, REQUEST_ENABLE_BT, null)
+            ActivityCompat.startActivityForResult(activity, enableBtIntent, REQUEST_ENABLE_BT, null)
         else
             return
 

@@ -1,4 +1,4 @@
-package com.example.heartrateblock
+package com.example.heartrateblock.Pages.main
 
 import android.Manifest
 import android.os.Bundle
@@ -7,6 +7,7 @@ import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.heartrateblock.R
 
 class MainActivity : AppCompatActivity() {
 
