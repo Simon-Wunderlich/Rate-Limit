@@ -9,4 +9,9 @@
         <attr name="deviceName" format="string"/>
         <attr name="connectionStrength" format="string"/>
     </declare-styleable>
+    <declare-styleable name="BtDeviceCard">
+        <attr name="selected" format="boolean"/>
+        <attr name="btDeviceName" format="string"/>
+        <attr name="btConnectionStrength" format="string"/>
+    </declare-styleable>
 </resources>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context=".Pages.deviceBrowser.DeviceBrowser">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="24dp"
+        android:paddingTop="64dp"
+        android:background="@drawable/header_bg"
+        android:layout_gravity="center_vertical">
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/baseline_keyboard_arrow_left_24"/>
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/connect_to_your_heart_rate_monitor"/>
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="32dp"
+            android:orientation="vertical"
+            >
+            <com.sorryhorse.RateLimit.Pages.deviceBrowser.components.BtDeviceCard
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp"
+                app:btDeviceName="Bluetooth device"
+                app:btConnectionStrength="80"
+                app:selected="false"/>
+            <com.sorryhorse.RateLimit.Pages.deviceBrowser.components.BtDeviceCard
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp"
+                app:btDeviceName="Bluetooth device"
+                app:btConnectionStrength="80"
+                app:selected="false"/>
+            <com.sorryhorse.RateLimit.Pages.deviceBrowser.components.BtDeviceCard
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp"
+                app:btDeviceName="Bluetooth device"
+                app:btConnectionStrength="80"
+                app:selected="false"/>
+            <com.sorryhorse.RateLimit.Pages.deviceBrowser.components.BtDeviceCard
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp"
+                app:btDeviceName="Bluetooth device"
+                app:btConnectionStrength="80"
+                app:selected="false"/>
+            <com.sorryhorse.RateLimit.Pages.deviceBrowser.components.BtDeviceCard
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp"
+                app:btDeviceName="Bluetooth device"
+                app:btConnectionStrength="80"
+                app:selected="false"/>
+            <com.sorryhorse.RateLimit.Pages.deviceBrowser.components.BtDeviceCard
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp"
+                app:btDeviceName="Bluetooth device"
+                app:btConnectionStrength="80"
+                app:selected="false"/>
+            <com.sorryhorse.RateLimit.Pages.deviceBrowser.components.BtDeviceCard
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp"
+                app:btDeviceName="Bluetooth device"
+                app:btConnectionStrength="80"
+                app:selected="false"/>
+            <com.sorryhorse.RateLimit.Pages.deviceBrowser.components.BtDeviceCard
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp"
+                app:btDeviceName="Bluetooth device"
+                app:btConnectionStrength="80"
+                app:selected="false"/>
+            <com.sorryhorse.RateLimit.Pages.deviceBrowser.components.BtDeviceCard
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp"
+                app:btDeviceName="Bluetooth device"
+                app:btConnectionStrength="80"
+                app:selected="false"/>
+            <com.sorryhorse.RateLimit.Pages.deviceBrowser.components.BtDeviceCard
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp"
+                app:btDeviceName="Bluetooth device"
+                app:btConnectionStrength="80"
+                app:selected="false"/>
+            <com.sorryhorse.RateLimit.Pages.deviceBrowser.components.BtDeviceCard
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp"
+                app:btDeviceName="Bluetooth device"
+                app:btConnectionStrength="80"
+                app:selected="false"/>
+            <com.sorryhorse.RateLimit.Pages.deviceBrowser.components.BtDeviceCard
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp"
+                app:btDeviceName="Bluetooth device"
+                app:btConnectionStrength="80"
+                app:selected="false"/>
+            <com.sorryhorse.RateLimit.Pages.deviceBrowser.components.BtDeviceCard
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="16dp"
+                app:btDeviceName="Bluetooth device"
+                app:btConnectionStrength="80"
+                app:selected="true"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
