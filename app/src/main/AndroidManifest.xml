@@ -28,7 +28,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HeartRateBlock">
+        android:theme="@style/Base.Theme.RateLimit">
         <activity
             android:name=".Pages.main.MainActivity"
             android:exported="true"
@@ -44,7 +44,7 @@
             android:name=".Pages.deviceBrowser.DeviceBrowser"
             android:exported="false"
             android:label="@string/title_activity_device_browser"
-            android:theme="@style/Theme.HeartRateBlock"
+            android:theme="@style/Base.Theme.RateLimit.OrangeStatusBar"
             android:windowSoftInputMode="adjustResize" />
     </application>
 

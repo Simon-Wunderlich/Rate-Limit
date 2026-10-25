@@ -4,6 +4,10 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
-
-    <style name="Theme.HeartRateBlock" parent="Base.Theme.RateLimit" />
+    <style name="Base.Theme.RateLimit.OrangeStatusBar" parent="Base.Theme.RateLimit">
+        <item name="android:statusBarColor">@color/status_bar_colour</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+`
+    <style name="Theme.HeartRateBlock" parent="Base.Theme.RateLimit" />`
 </resources>

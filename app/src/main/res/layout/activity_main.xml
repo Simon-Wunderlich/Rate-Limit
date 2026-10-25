@@ -24,7 +24,7 @@
             android:id="@+id/graph"
             android:layout_width="260dp"
             android:layout_height="144dp"
-            app:percent="45"
+            app:percent="0"
             app:progressBarColor="#ffd8a8"
             app:progressBarWidth="50"
             app:progressPlaceHolderColor="#e9ecef"
@@ -36,7 +36,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="143"
+            android:id="@+id/heart_rate"
+            android:text="--"
             android:textColor="@color/black"
             android:textSize="64sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,10 +59,10 @@
                 android:textSize="16sp"/>
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/threshold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/edit_threshold"
+                android:text="Threshold: --"
                 android:textColor="@color/blue"
                 android:textSize="12sp" />
         </LinearLayout>

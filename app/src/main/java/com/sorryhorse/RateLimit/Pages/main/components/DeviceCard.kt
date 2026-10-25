@@ -1,5 +1,6 @@
 package com.sorryhorse.RateLimit.Pages.main.components
 
+import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -52,5 +53,18 @@ class DeviceCard @JvmOverloads constructor(
             )
         )
         root.background = AppCompatResources.getDrawable(context, R.drawable.device_card_error)
+    }
+    fun isConnected() : Boolean { return connected}
+    fun setDevice(device: BluetoothDevice?) {
+        this.connected = true
+
+        nameTextView.text = device?.name
+        root.background = AppCompatResources.getDrawable(context, R.drawable.rounder_border)
+        image.setImageDrawable(
+            AppCompatResources.getDrawable(
+                context,
+                R.drawable.connected_icon
+            )
+        )
     }
 }
