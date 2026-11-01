@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -17,6 +18,7 @@ class Preferences(private val context: Context) {
     companion object {
         val THRESHOLD_KEY = intPreferencesKey("threshold")
         val DEVICE_KEY = stringPreferencesKey("device")
+        val APP_KEY = stringSetPreferencesKey("apps")
     }
 
     val thresholdFlow: Flow<Int> = context.dataStore.data
@@ -43,6 +45,18 @@ class Preferences(private val context: Context) {
             preferences[DEVICE_KEY] ?: ""
         }
 
+    val appFlow: Flow<Set<String>> = context.dataStore.data
+        .catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }
+        .map { preferences ->
+            preferences[APP_KEY] ?: setOf()
+        }
+
     suspend fun saveThreshold(threshold: Int) {
         context.dataStore.edit { preferences ->
             preferences[THRESHOLD_KEY] = threshold
@@ -52,6 +66,12 @@ class Preferences(private val context: Context) {
     suspend fun saveDevice(device: String) {
         context.dataStore.edit { preferences ->
             preferences[DEVICE_KEY] = device
+        }
+    }
+
+    suspend fun saveApps(apps : Set<String>) {
+        context.dataStore.edit { preferences ->
+            preferences[APP_KEY] = apps
         }
     }
 }

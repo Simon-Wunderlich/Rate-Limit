@@ -1,30 +1,31 @@
 package com.sorryhorse.RateLimit.Pages.deviceBrowser.components
 
+import android.Manifest
 import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresPermission
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import com.sorryhorse.RateLimit.R
 import com.sorryhorse.RateLimit.services.BluetoothService
+import com.sorryhorse.RateLimit.services.PreferencesController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class BtDeviceCard (
+class BtDeviceCard(
     context: Context,
     attrs: AttributeSet? = null,
 ) : ConstraintLayout(context) {
-    private val nameTextView : TextView
-    private val connectionTextView : TextView
-    private var selected : Boolean = false
-    private val selectedIcon : ImageView
-    private var root : ConstraintLayout
+    private val nameTextView: TextView
+    private val connectionTextView: TextView
+    private var selected: Boolean = false
+    private val selectedIcon: ImageView
+    private var root: ConstraintLayout
     private val scope = CoroutineScope(Dispatchers.IO)
-
 
 
     init {
@@ -46,33 +47,34 @@ class BtDeviceCard (
         }
     }
 
-    @androidx.annotation.RequiresPermission(android.Manifest.permission.BLUETOOTH_CONNECT)
-    fun setData(name : String, device : BluetoothDevice, connection : Int, context: Context) {
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    fun setData(name: String, device: BluetoothDevice, connection: Int, context: Context) {
         nameTextView.text = name
         connectionTextView.text = "Signal strength: " + when (connection) {
             in 100 downTo -50 -> "Excellent"
             in -60 downTo -70 -> "Good"
             in -80 downTo -90 -> "Weak"
-            else -> {"Extremely poor"}
+            else -> {
+                "Extremely poor"
+            }
         }
         val bluetoothService = BluetoothService
-        if (bluetoothService.getDevice()?.address == device.address){
+        if (bluetoothService.getDevice()?.address == device.address) {
             selected = true
             selectedIcon.visibility = VISIBLE
         }
-        this.setOnClickListener  {
+        this.setOnClickListener {
             connectToDevice(device, context)
         }
     }
 
-    fun connectToDevice(device : BluetoothDevice, context: Context) {
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    fun connectToDevice(device: BluetoothDevice, context: Context) {
         val bluetoothService = BluetoothService
         bluetoothService.connectToDevice(device, context)
         selected = true
         selectedIcon.visibility = VISIBLE
-        scope.launch {
-            val preferences = com.sorryhorse.RateLimit.Preferences(context)
-            preferences.saveDevice(device.address)
-        }
+        val prefController = PreferencesController(context, scope)
+        prefController.setDevice(device.address)
     }
 }

@@ -1,11 +1,13 @@
 package com.sorryhorse.RateLimit.Pages.main.components
 
+import android.Manifest
 import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresPermission
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
@@ -55,6 +57,7 @@ class DeviceCard @JvmOverloads constructor(
         root.background = AppCompatResources.getDrawable(context, R.drawable.device_card_error)
     }
     fun isConnected() : Boolean { return connected}
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     fun setDevice(device: BluetoothDevice?) {
         this.connected = true
 

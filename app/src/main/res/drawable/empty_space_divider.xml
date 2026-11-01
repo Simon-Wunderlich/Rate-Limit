@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+android:shape="rectangle">
+
+<!-- Make the divider completely transparent -->
+<solid android:color="@android:color/transparent" />
+
+<!-- Define the size of the spacing (e.g., 16dp) -->
+<!-- Use height for vertical layouts, width for horizontal layouts -->
+<size
+    android:width="16dp"
+    android:height="16dp" />
+
+</shape>

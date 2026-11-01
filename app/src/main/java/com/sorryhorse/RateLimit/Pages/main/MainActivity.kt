@@ -6,27 +6,32 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.sorryhorse.RateLimit.Pages.deviceBrowser.DeviceBrowser
+import com.sorryhorse.RateLimit.Pages.main.components.AppCard
+import com.sorryhorse.RateLimit.Pages.main.components.AppList
 import com.sorryhorse.RateLimit.Pages.main.components.DeviceCard
-import com.sorryhorse.RateLimit.Preferences
 import com.sorryhorse.RateLimit.R
+import com.sorryhorse.RateLimit.models.App
+import com.sorryhorse.RateLimit.services.AppService
 import com.sorryhorse.RateLimit.services.BluetoothService
-import kotlinx.coroutines.launch
+import com.sorryhorse.RateLimit.services.PreferencesController
 import me.bastanfar.semicirclearcprogressbar.SemiCircleArcProgressBar
 
 class MainActivity : AppCompatActivity() {
-    private var threshold = 145
-    private var previous_device = ""
+    private lateinit var prefController: PreferencesController
+    private var previousDevice = ""
 
-    @RequiresPermission(allOf= [Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT])
+    @RequiresPermission(allOf = [Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT])
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -43,24 +48,23 @@ class MainActivity : AppCompatActivity() {
         bluetoothService.setGattCallback(::setHeartRate)
         bluetoothService.setScanCallbacks(::scanCallback, {})
 
-        lifecycleScope.launch {
-            val preferences = Preferences(this@MainActivity)
-            preferences.thresholdFlow.collect { value ->
-                threshold = value
-                val thresholdButton = findViewById<TextView>(R.id.threshold)
-                thresholdButton.text = "Threshold: $threshold"
-            }
+        prefController = PreferencesController(this, lifecycleScope)
+        prefController.onThresholdChanged { value ->
+            val thresholdButton = findViewById<TextView>(R.id.threshold)
+            thresholdButton.text = "Threshold: $value"
         }
 
-        lifecycleScope.launch {
-            val preferences = Preferences(this@MainActivity)
-            preferences.deviceFlow.collect { value ->
-                previous_device = value
-                val bluetoothService = BluetoothService
-                bluetoothService.scan(this@MainActivity)
-            }
+        prefController.onDeviceChanged { value ->
+            previousDevice = value
+            val bluetoothService = BluetoothService
+            bluetoothService.scan(this)
         }
 
+        prefController.onAppListChanged { value ->
+            val appService = AppService(this@MainActivity)
+            value.forEach { println(it) }
+            updateAppList(appService.filter { value.contains(it.id) })
+        }
 
         val deviceCard = findViewById<DeviceCard>(R.id.deviceCard)
         deviceCard.setOnClickListener {
@@ -78,11 +82,7 @@ class MainActivity : AppCompatActivity() {
                 .setTitle("Set threshold")
                 .setView(input)
                 .setPositiveButton("OK") { dialog, _ ->
-                    threshold = input.text.toString().toInt()
-                    lifecycleScope.launch {
-                        val preferences = Preferences(this@MainActivity)
-                        preferences.saveThreshold(threshold)
-                    }
+                    prefController.setThreshold(input.text.toString().toInt())
                     dialog.dismiss()
                 }
                 .setNegativeButton("Cancel") { dialog, _ ->
@@ -90,16 +90,43 @@ class MainActivity : AppCompatActivity() {
                 }
                 .create().show()
         }
+
+        val edit = findViewById<TextView>(R.id.edit)
+        edit.setOnClickListener {
+            val appList = AppList(prefController.getAppIds())
+            appList.show(supportFragmentManager, AppList.TAG)
+            supportFragmentManager.setFragmentResultListener(
+                "blockedApps",
+                this
+            ) { requestKey, bundle ->
+                val appList = bundle.getSerializable("apps") as? ArrayList<String>
+                    ?: return@setFragmentResultListener
+                prefController.setAppSet(appList.toSet())
+            }
+        }
     }
 
-    fun scanCallback(result : ScanResult) {
-        if (result.device.address != previous_device)
+    fun updateAppList(apps: List<App>) {
+        val appListView = findViewById<LinearLayout>(R.id.app_list)
+
+        appListView.removeAllViews()
+        apps.forEach { item ->
+            val card = AppCard(this)
+            card.setData(item, false)
+            appListView.addView(card)
+        }
+    }
+
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    fun scanCallback(result: ScanResult) {
+        if (result.device.address != previousDevice)
             return
         val bluetoothService = BluetoothService
         bluetoothService.connectToDevice(result.device, this)
         setDeviceCard()
     }
 
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     fun setDeviceCard() {
         val bluetoothService = BluetoothService
         if (bluetoothService.getDevice() == null)
@@ -110,19 +137,30 @@ class MainActivity : AppCompatActivity() {
         deviceCard.setDevice(bluetoothService.getDevice())
     }
 
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     fun setHeartRate(heartRate: Int) {
+        val progress = findViewById<SemiCircleArcProgressBar>(R.id.graph)
+        val heartRateTitle = findViewById<TextView>(R.id.heart_rate)
+
+
+        val threshold = prefController.getThreshold()
+        val percent = rateToPercent(heartRate, threshold)
         runOnUiThread {
             setDeviceCard()
-            val percent = rateToPercent(heartRate)
-            val progress = findViewById<SemiCircleArcProgressBar>(R.id.graph)
+
             progress.setPercent(percent)
 
-            val heart_rate = findViewById<TextView>(R.id.heart_rate)
-            heart_rate.text = heartRate.toString()
+            heartRateTitle.text = heartRate.toString()
+
+            if (heartRate < threshold) {
+                progress.setProgressBarColor(ContextCompat.getColor(this, R.color.red))
+            } else {
+                progress.setProgressBarColor(ContextCompat.getColor(this, R.color.primary))
+            }
         }
     }
 
-    fun rateToPercent(rate : Int) : Int {
-        return Math.min(100, 100 * rate / threshold)
+    fun rateToPercent(rate: Int, threshold: Int): Int {
+        return 100.coerceAtMost(100 * rate / threshold)
     }
 }

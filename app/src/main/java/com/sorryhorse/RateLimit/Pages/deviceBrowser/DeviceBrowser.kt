@@ -17,15 +17,13 @@ import androidx.annotation.RequiresPermission
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.lifecycleScope
 import com.sorryhorse.RateLimit.Pages.deviceBrowser.components.BtDeviceCard
-import com.sorryhorse.RateLimit.Preferences
 import com.sorryhorse.RateLimit.services.BluetoothService
-import kotlinx.coroutines.launch
+import com.sorryhorse.RateLimit.services.PreferencesController
 
 class DeviceBrowser : ComponentActivity() {
     private val devices: HashMap<String, BluetoothDevice> = HashMap()
     private val HEARTRATE_SERVICE = "0000180d-0000-1000-8000-00805f9b34fb"
     private val bluetoothService = BluetoothService
-    private var previous_device = ""
 
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
@@ -51,13 +49,6 @@ class DeviceBrowser : ComponentActivity() {
             startScan()
         }
 
-        lifecycleScope.launch {
-            val preferences = Preferences(this@DeviceBrowser)
-            preferences.deviceFlow.collect { value ->
-                println(value)
-                previous_device = value
-            }
-        }
     }
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
@@ -96,7 +87,9 @@ class DeviceBrowser : ComponentActivity() {
         else
             deviceCard.setData(device.name, device, rssi, this)
 
-        if (device.address == previous_device)
+
+        val prefController = PreferencesController(this, lifecycleScope)
+        if (device.address == prefController.getDevice())
             deviceCard.connectToDevice(device, this)
 
         val deviceList = findViewById<LinearLayout>(R.id.deviceList)
